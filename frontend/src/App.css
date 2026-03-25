@@ -1,0 +1,29 @@
+:root {
+  --color-bg: #f5f7fa;
+  --color-card: #ffffff;
+  --color-primary: #4f46e5;
+  --color-text: #1e293b;
+  --color-text-light: #64748b;
+  --color-todo: #e2e8f0;
+  --color-inprogress: #bfdbfe;
+  --color-done: #bbf7d0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}

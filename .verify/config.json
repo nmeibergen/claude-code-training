@@ -1,0 +1,17 @@
+{
+  "scoreboardUrl": "https://claude-code-training-scoreboard.onrender.com",
+  "secret": "taskflow2026",
+  "participantId": "",
+  "nickname": "",
+  "steps": {
+    "1": { "title": "Project Init & CLAUDE.md", "points": 10 },
+    "2": { "title": "Build the Task API", "points": 10 },
+    "3": { "title": "Build the Kanban Board UI", "points": 10 },
+    "4": { "title": "Add Drag & Drop", "points": 10 },
+    "5": { "title": "Fix the Bugs", "points": 10 },
+    "6": { "title": "Visual Polish with Screenshots", "points": 10 },
+    "7": { "title": "Write Tests", "points": 10 },
+    "8": { "title": "Git Workflow", "points": 10 },
+    "9": { "title": "Freestyle Feature", "points": 15 }
+  }
+}
