@@ -7,8 +7,6 @@ Build a Kanban task management app using Claude Code. This challenge teaches you
 1. **Install dependencies:**
    ```bash
    npm install
-   npm install --workspace=backend
-   npm install --workspace=frontend
    ```
 
 2. **Start the development servers:**
