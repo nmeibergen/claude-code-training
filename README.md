@@ -43,21 +43,44 @@ Replace `YOUR-NICKNAME-HERE` with any nickname you'd like (must be unique on the
 
 ## The Steps
 
-### Step 1: Project Init & CLAUDE.md (10 points)
+### Step 1: Set Up CLAUDE.md (10 points)
 
-**Goal:** Create a CLAUDE.md file that describes your project setup.
+**Goal:** Fill in the CLAUDE.md file so Claude Code understands your project.
 
-**Why it matters:** CLAUDE.md is a reference document that helps Claude Code understand your project — what frameworks you're using, which ports they run on, your coding style, and any conventions to follow.
+**Why it matters:** CLAUDE.md is a reference document that helps Claude Code understand your project — what frameworks you're using, which ports they run on, your coding style, and any conventions to follow. An empty CLAUDE.md means Claude Code knows nothing about your project. A good one makes every future prompt more effective.
 
 **Hints:**
-- Use `/init` in Claude Code to generate an initial CLAUDE.md, then refine it with feedback
-- Tell Claude Code about your project's framework, ports (3001 for backend, 5173 for frontend), and coding conventions (ESM imports, etc.)
+- Look at the project structure first — explore what's already here (backend, frontend, package.json, etc.)
+- Then tell Claude Code about the project in your own words: "This is a Node.js/Express + React (Vite) monorepo. The backend runs on port 3001, frontend on 5173. We use ESM imports, functional React components with hooks, and all API routes are prefixed with /api/. Please write a CLAUDE.md that captures these conventions."
+- Review what Claude Code writes — does it match the project? Ask it to add anything it missed.
 
 **When done:** Run `/verify 1` to verify.
 
 ---
 
-### Step 2: Build the Task API (10 points)
+### Step 2: Git Setup & /commit Command (10 points)
+
+**Goal:** Create your own custom Claude Code slash command that you'll use for the rest of the session.
+
+**Why it matters:** You've already used `/verify` — but did you know it's just a markdown file in `.claude/commands/`? You can write your own. In this step you'll build a `/commit` command that makes git commits effortless. Check out this post for inspiration:
+
+👉 https://www.reddit.com/r/ClaudeAI/comments/1pbhoyr/still_writing_commit_messages_by_hand_try_claude/
+
+**What your /commit command must do:**
+- Review all uncommitted changes and understand what was changed
+- Group changes into **multiple logical commits** if they span different areas (e.g. backend work and frontend work should be separate commits — not one big blob)
+- **Never push** to any remote
+
+**Hints:**
+- Ask Claude Code to create the file `.claude/commands/commit.md` based on the article above, with your two requirements baked in
+- Once the file exists, try running `/commit` — this is your first real commit (the CLAUDE.md you wrote in step 1)
+- From now on, run `/commit` after every step. You'll end up with a clean git history that tells your whole learning story.
+
+**When done:** Run `/verify 2` to verify.
+
+---
+
+### Step 3: Build the Task API (10 points)
 
 **Goal:** Create CRUD endpoints for task management.
 
@@ -68,11 +91,11 @@ Replace `YOUR-NICKNAME-HERE` with any nickname you'd like (must be unique on the
 - Describe the request/response shapes: What fields does a task have? What does the payload look like?
 - Suggest a simple in-memory data structure to start (an array of tasks with id, title, status, etc.)
 
-**When done:** Run `/verify 2` to verify.
+**When done:** Run `/verify 3` to verify. Then run `/commit`.
 
 ---
 
-### Step 3: Build the Kanban Board UI (10 points)
+### Step 4: Build the Kanban Board UI (10 points)
 
 **Goal:** Create a three-column board (To Do, In Progress, Done) that displays and creates tasks.
 
@@ -84,47 +107,55 @@ Replace `YOUR-NICKNAME-HERE` with any nickname you'd like (must be unique on the
 - Ask it to fetch tasks from the backend and display them
 - Add a form to create new tasks
 
-**When done:** Run `/verify 3` to verify.
+**When done:** Run `/verify 4` to verify. Then run `/commit`.
 
 ---
 
-### Step 4: Add Drag & Drop (10 points)
+### Step 5: Add Drag & Drop (10 points)
 
 **Goal:** Make tasks draggable between columns.
 
-**Why it matters:** This step is about planning. Before diving into code, ask Claude Code to think through the approach first. You'll see it reason about trade-offs (native HTML5 vs a DnD library) before writing anything.
+**Why it matters:** This step teaches you Claude Code's **plan mode** — a dedicated mode where Claude Code can read and explore your codebase but *cannot make any changes*. It only discusses, analyzes, and proposes an approach. This is powerful for complex features where you want to agree on a plan before any code is written.
+
+**How to use plan mode:**
+1. Press `Shift+Tab` to cycle through modes until you see **"plan mode on"** in the status bar
+2. Ask Claude Code: "I want to add drag and drop so users can move tasks between columns. What approach would you recommend? What are the trade-offs between native HTML5 drag/drop and a library like @dnd-kit?"
+3. Discuss and refine the plan together — Claude Code will explore your code and propose an approach, but won't change anything
+4. Once you're happy with the plan, press `Shift+Tab` again to switch back to normal mode
+5. Then tell Claude Code to implement the plan
 
 **Hints:**
-- Ask Claude Code: "Think step by step about the best approach for drag & drop, then implement it"
-- You could use native HTML5 drag/drop, `react-beautiful-dnd`, or `@dnd-kit` — let Claude Code recommend
+- In plan mode, Claude Code can read your files and run commands to understand your codebase — use this to get a thorough analysis
+- You could end up with native HTML5 drag/drop, `react-beautiful-dnd`, or `@dnd-kit` — let Claude Code reason about the trade-offs
 - When a task is dropped, it should call PATCH /api/tasks/:id with the new status
-- The UI should update to reflect the new status
 
-**When done:** Run `/verify 4` to verify.
+**When done:** Run `/verify 5` to verify. Then run `/commit`.
 
 ---
 
-### Step 5: Fix the Bugs (10 points)
+### Step 6: Fix the Bugs (10 points)
 
-**Goal:** Debug and fix two bugs that I'll introduce when you verify.
+**Goal:** Find and fix two bugs in your application.
 
-**Why it matters:** This teaches you debugging with Claude Code. Instead of pointing at specific lines, describe *what's wrong* and let Claude Code find and fix it.
+**Why it matters:** This teaches you debugging with Claude Code. Instead of pointing at specific lines of code, you describe *what's wrong* and let Claude Code trace the cause across your codebase.
 
-**What happens:**
-- When you run `/verify 5`, I'll inject two bugs into your code
-- I'll tell you what the symptoms are (e.g., "deleted tasks reappear", "the board doesn't refresh when you move a task")
-- Your job is to describe the issue to Claude Code and ask it to find and fix it
+**What to do:**
+1. Open your Kanban board in the browser (http://localhost:5173)
+2. Create a few tasks and test the app thoroughly:
+   - Try **deleting** a task — does it actually disappear?
+   - Try **moving** a task between columns (drag & drop) — does the board update?
+3. You should notice two things aren't working correctly. Describe what you observe to Claude Code and ask it to find and fix the issues.
 
 **Hints:**
-- Tell Claude Code what you *observe* (e.g., "When I delete a task, the API says it succeeded, but the task is still there") rather than where you think the bug is
-- Ask Claude Code to check the backend delete logic and the frontend refresh logic
-- Let Claude Code search your codebase and reason about what could cause the symptom
+- Tell Claude Code what you *observe* (e.g., "When I delete a task, the API says it succeeded, but the task is still there when I refresh") rather than where you think the bug is
+- Let Claude Code search your codebase and reason about what could cause each symptom
+- There are two separate bugs — one in the backend, one in the frontend
 
-**When done:** Run `/verify 5` to verify.
+**When done:** Run `/verify 6` to verify. Then run `/commit`.
 
 ---
 
-### Step 6: Visual Polish with Screenshots (10 points)
+### Step 7: Visual Polish with Screenshots (10 points)
 
 **Goal:** Make your app look polished and professional.
 
@@ -137,11 +168,11 @@ Replace `YOUR-NICKNAME-HERE` with any nickname you'd like (must be unique on the
 - Ask for better spacing, colors, typography, or interactive feedback
 - Claude Code can suggest and implement improvements based on what it sees
 
-**When done:** Run `/verify 6` to verify. (Make sure you've also updated CLAUDE.md with any new information about your project.)
+**When done:** Run `/verify 7` to verify. (Make sure you've also updated CLAUDE.md with any new information about your project.) Then run `/commit`.
 
 ---
 
-### Step 7: Write Tests (10 points)
+### Step 8: Write Tests (10 points)
 
 **Goal:** Write automated tests for your backend API.
 
@@ -153,22 +184,7 @@ Replace `YOUR-NICKNAME-HERE` with any nickname you'd like (must be unique on the
 - It'll write tests, run them, see if any fail, and iterate until green
 - You might need to install dependencies with `npm install` in the backend workspace
 
-**When done:** Run `/verify 7` to verify.
-
----
-
-### Step 8: Git Workflow (10 points)
-
-**Goal:** Review all your work and create well-organized git commits.
-
-**Why it matters:** This is one of the most-used Claude Code features in real development. It understands diffs, groups logical changes, and writes clear commit messages.
-
-**Hints:**
-- Ask Claude Code: "Review everything I've built and create well-organized git commits with descriptive messages"
-- It'll see your full diff, reason about how to split it logically (e.g., "API endpoints", "UI components", "tests"), and commit each group
-- Commit messages should reference specific features, not just "fix" or "update"
-
-**When done:** Run `/verify 8` to verify.
+**When done:** Run `/verify 8` to verify. Then run `/commit`.
 
 ---
 
@@ -184,7 +200,7 @@ Replace `YOUR-NICKNAME-HERE` with any nickname you'd like (must be unique on the
 - The more specific and complete your prompt, the better the result
 - Iterate if the first version needs tweaks
 
-**When done:** Run `/verify 9` to verify.
+**When done:** Run `/verify 9` to verify. Then run `/commit` one last time — your git log tells your whole story!
 
 ---
 
@@ -194,9 +210,11 @@ Replace `YOUR-NICKNAME-HERE` with any nickname you'd like (must be unique on the
 
 **Iterate, Don't Restart:** If Claude Code's first attempt isn't quite right, tell it what's wrong and let it fix it. This is much faster than asking it to start over.
 
-**Think Before Coding:** For complex features, ask Claude Code to "think step by step about the approach first, then implement it." You'll see it reason through trade-offs before writing code.
+**Use Plan Mode:** For complex features, press `Shift+Tab` to enter plan mode. Claude Code will explore your codebase and discuss the approach without making any changes. Once you agree on a plan, switch back to normal mode and tell it to implement.
 
 **Keep Context Fresh:** Between steps, run `/compact` in Claude Code to clean up your chat history and free up context for the next task.
+
+**Commit Often:** After each step verification, run `/commit` — your custom command will group the changes into clean, logical commits. By the end you'll have a git history that reads like a story.
 
 **Update CLAUDE.md:** As your project evolves, ask Claude Code to update CLAUDE.md. This keeps the reference document current and helps with future iterations.
 

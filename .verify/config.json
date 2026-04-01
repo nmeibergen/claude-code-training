@@ -4,7 +4,7 @@
   "participantId": "",
   "nickname": "",
   "steps": {
-    "1": { "title": "Project Init & CLAUDE.md", "points": 10 },
+    "1": { "title": "Set Up CLAUDE.md", "points": 10 },
     "2": { "title": "Build the Task API", "points": 10 },
     "3": { "title": "Build the Kanban Board UI", "points": 10 },
     "4": { "title": "Add Drag & Drop", "points": 10 },
